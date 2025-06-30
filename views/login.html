@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sharp Cuts Barber Shop</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <header>
@@ -13,6 +14,9 @@
             <a href="/">Home</a>
             <a href="/menu">Services</a>
             <a href="/dashboard">My Dashboard</a>
+            <a href="/signup">Book Appointment</a>
+            <a href="/survey">Leave Feedback</a>
+            <a href="/qa">FAQ</a>
             <a href="/login">Login</a>
             <a href="/register">Register</a>
         </div>
@@ -20,6 +24,11 @@
     
     <main>
         <h2>Login</h2>
+        
+        <div id="error-popup" class="error-popup">
+            <span class="close-btn" onclick="closeErrorPopup()">&times;</span>
+            <span id="error-message"></span>
+        </div>
         
         <form method="post" action="/login">
             <div class="form-group">
@@ -37,5 +46,30 @@
         
         <p>Don't have an account? <a href="/register">Register here</a></p>
     </main>
+    
+    <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            
+            if (error) {
+                showErrorPopup(decodeURIComponent(error));
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+        
+        function showErrorPopup(message) {
+            $('#error-message').text(message);
+            $('#error-popup').fadeIn(300);
+            
+            setTimeout(function() {
+                closeErrorPopup();
+            }, 5000);
+        }
+        
+        function closeErrorPopup() {
+            $('#error-popup').fadeOut(300);
+        }
+    </script>
 </body>
 </html>

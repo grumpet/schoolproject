@@ -2,11 +2,25 @@ const User = require('../models/user');
 const path = require('path');
 
 exports.getLogin = (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/login.html'));
+    const errorMessage = req.session.errorMessage;
+    req.session.errorMessage = null; 
+    if (errorMessage) {
+
+        res.redirect(`/login?error=${encodeURIComponent(errorMessage)}`);
+    } else {
+        res.sendFile(path.join(__dirname, '../views/login.html'));
+    }
 };
 
 exports.getRegister = (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/register.html'));
+    const errorMessage = req.session.errorMessage;
+    req.session.errorMessage = null; 
+    
+    if (errorMessage) {
+        res.redirect(`/register?error=${encodeURIComponent(errorMessage)}`);
+    } else {
+        res.sendFile(path.join(__dirname, '../views/register.html'));
+    }
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -17,6 +31,7 @@ exports.postLogin = async (req, res, next) => {
         
         if (users.length === 0) {
             console.log('User not found');
+            req.session.errorMessage = 'Invalid email or password. Please try again.';
             return res.redirect('/login');
         }
         
@@ -25,6 +40,7 @@ exports.postLogin = async (req, res, next) => {
         
         if (!isValidPassword) {
             console.log('Invalid password');
+            req.session.errorMessage = 'Invalid email or password. Please try again.';
             return res.redirect('/login');
         }
         
@@ -37,6 +53,7 @@ exports.postLogin = async (req, res, next) => {
         res.redirect('/');
     } catch (err) {
         console.error('Login error:', err);
+        req.session.errorMessage = 'An error occurred during login. Please try again.';
         res.redirect('/login');
     }
 };
@@ -46,6 +63,7 @@ exports.postRegister = async (req, res, next) => {
     
     if (password !== confirmPassword) {
         console.log('Passwords do not match');
+        req.session.errorMessage = 'Passwords do not match. Please try again.';
         return res.redirect('/register');
     }
     
@@ -54,6 +72,7 @@ exports.postRegister = async (req, res, next) => {
         
         if (existingUsers.length > 0) {
             console.log('User already exists');
+            req.session.errorMessage = 'An account with this email already exists. Please use a different email or login instead.';
             return res.redirect('/register');
         }
         
@@ -61,9 +80,11 @@ exports.postRegister = async (req, res, next) => {
         await user.save();
         
         console.log('User registered successfully');
+        req.session.successMessage = 'Registration successful! Please login with your credentials.';
         res.redirect('/login');
     } catch (err) {
         console.error('Registration error:', err);
+        req.session.errorMessage = 'An error occurred during registration. Please try again.';
         res.redirect('/register');
     }
 };
