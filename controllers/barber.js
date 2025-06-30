@@ -5,7 +5,7 @@ exports.saveAppointment = (req, res, next) => {
     const { name, email, phone, serviceId, date, time } = req.body;
     
     const appointment = new Appointment(
-        null, 
+        req.session.userId, // Use logged-in user's ID
         name,
         email,
         phone,
@@ -21,7 +21,7 @@ exports.saveAppointment = (req, res, next) => {
         })
         .catch(err => {
             console.error('Error booking appointment:', err);
-            res.redirect('/book');
+            res.redirect('/signup');
         });
 };
 
