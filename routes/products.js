@@ -4,6 +4,7 @@ const router = express.Router();
 const barberController = require('../controllers/barber');
 const authController = require('../controllers/auth');
 const authMiddleware = require('../util/auth');
+const Appointment = require('../models/appointment');
 
 // Home page
 router.get('/', (req, res, next) => {
@@ -20,6 +21,20 @@ router.post('/logout', authController.postLogout);
 // Services menu
 router.get('/menu', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../views/menu.html'));
+});
+
+// Dashboard (protected route)
+router.get('/dashboard', authMiddleware.requireAuth, barberController.getDashboard);
+
+// API endpoint to fetch user's appointments
+router.get('/api/my-appointments', authMiddleware.requireAuth, async (req, res, next) => {
+    try {
+        const [appointments] = await Appointment.findByUserId(req.session.userId);
+        res.json(appointments);
+    } catch (err) {
+        console.error('Error fetching appointments:', err);
+        res.status(500).json({ error: 'Failed to fetch appointments' });
+    }
 });
 
 // Appointment booking (protected routes)

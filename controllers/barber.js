@@ -1,11 +1,23 @@
 const Appointment = require('../models/appointment');
 const Survey = require('../models/survey');
+const path = require('path');
+
+exports.getDashboard = async (req, res, next) => {
+    try {
+        const [appointments] = await Appointment.findByUserId(req.session.userId);
+        res.sendFile(path.join(__dirname, '../views/dashboard.html'));
+        
+    } catch (err) {
+        console.error('Error fetching user appointments:', err);
+        res.redirect('/');
+    }
+};
 
 exports.saveAppointment = (req, res, next) => {
     const { name, email, phone, serviceId, date, time } = req.body;
     
     const appointment = new Appointment(
-        req.session.userId, // Use logged-in user's ID
+        req.session.userId, 
         name,
         email,
         phone,
@@ -17,7 +29,7 @@ exports.saveAppointment = (req, res, next) => {
     appointment.save()
         .then(() => {
             console.log('Appointment booked successfully');
-            res.redirect('/');
+            res.redirect('/dashboard'); 
         })
         .catch(err => {
             console.error('Error booking appointment:', err);
