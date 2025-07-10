@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Feedback - Sharp Cuts Barber Shop</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sharp Cuts Barber Shop</h1>
+        <div class="nav">
+            <a href="/">Home</a>
+            <a href="/menu">Services</a>
+            <a href="/dashboard">My Dashboard</a>
+            <a href="/signup">Book Appointment</a>
+            <a href="/survey">Leave Feedback</a>
+            <a href="/feedback">View Feedback</a>
+            <a href="/qa">FAQ</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <form method="post" action="/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </header>
+    
+    <main>
+        <h2>Customer Feedback</h2>
+        <p>Here you can view all the feedback submitted by our customers.</p>
+        
+        <div class="feedback-stats">
+            <div class="stat-card">
+                <h3>Total Reviews</h3>
+                <span id="total-reviews">0</span>
+            </div>
+            <div class="stat-card">
+                <h3>Average Rating</h3>
+                <span id="average-rating">0.0</span>
+            </div>
+        </div>
+        
+        <div id="feedback-container">
+            <div class="loading">
+                <p>Loading feedback...</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/feedback')
+                .then(response => response.json())
+                .then(feedback => {
+                    displayFeedback(feedback);
+                    calculateStats(feedback);
+                })
+                .catch(error => {
+                    console.error('Error fetching feedback:', error);
+                    document.getElementById('feedback-container').innerHTML = 
+                        '<div class="error"><p>Error loading feedback. Please try again later.</p></div>';
+                });
+        });
+        
+        function displayFeedback(feedback) {
+            const container = document.getElementById('feedback-container');
+            
+            if (feedback.length === 0) {
+                container.innerHTML = `
+                    <div class="no-feedback">
+                        <p>No feedback has been submitted yet.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let feedbackHTML = '<div class="feedback-list">';
+            
+            feedback.forEach(item => {
+                const stars = '★'.repeat(item.rating) + '☆'.repeat(5 - item.rating);
+                const date = item.formatted_date || 'Unknown date';
+                const email = item.email || 'Anonymous';
+                const comments = item.comments || 'No additional comments';
+                const serviceName = item.service_name || 'Not specified';
+                const recommendation = item.recommendation ? item.recommendation.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Not specified';
+                
+                feedbackHTML += `
+                    <div class="feedback-item">
+                        <div class="feedback-header">
+                            <div class="rating-display">${stars} (${item.rating}/5)</div>
+                            <div class="feedback-date">${date}</div>
+                        </div>
+                        <div class="feedback-body">
+                            <p class="feedback-email"><strong>From:</strong> ${email}</p>
+                            <p><strong>Service:</strong> ${serviceName}</p>
+                            <p><strong>Would Recommend:</strong> ${recommendation}</p>
+                            <p class="feedback-comments"><strong>Comments:</strong> ${comments}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            feedbackHTML += '</div>';
+            container.innerHTML = feedbackHTML;
+        }
+        
+        function calculateStats(feedback) {
+            if (feedback.length === 0) {
+                document.getElementById('total-reviews').textContent = '0';
+                document.getElementById('average-rating').textContent = '0.0';
+                return;
+            }
+            
+            const totalReviews = feedback.length;
+            const totalRating = feedback.reduce((sum, item) => sum + parseInt(item.rating), 0);
+            const averageRating = (totalRating / totalReviews).toFixed(1);
+            
+            document.getElementById('total-reviews').textContent = totalReviews;
+            document.getElementById('average-rating').textContent = averageRating;
+        }
+    </script>
+</body>
+</html>

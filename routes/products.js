@@ -26,6 +26,21 @@ router.get('/menu', (req, res, next) => {
 // Dashboard (protected route)
 router.get('/dashboard', authMiddleware.requireAuth, barberController.getDashboard);
 
+// Feedback page (protected route)
+router.get('/feedback', authMiddleware.requireAuth, barberController.getFeedback);
+
+// API endpoint to fetch all feedback
+router.get('/api/feedback', authMiddleware.requireAuth, async (req, res, next) => {
+    try {
+        const Survey = require('../models/survey');
+        const [feedback] = await Survey.findAll();
+        res.json(feedback);
+    } catch (err) {
+        console.error('Error fetching feedback:', err);
+        res.status(500).json({ error: 'Failed to fetch feedback' });
+    }
+});
+
 // API endpoint to fetch user's appointments
 router.get('/api/my-appointments', authMiddleware.requireAuth, async (req, res, next) => {
     try {
