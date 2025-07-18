@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yovel's barber profile</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="profile-container">
+        <header class="profile-header">
+            <h1>Yovel</h1>
+        </header>
+
+        <div class="gallery-section">
+            <h2>Hair Style Gallery</h2>
+            <div class="image-carousel">
+                <img id="galleryImage" src="/images/style1.png" alt="Hair Style">
+                <div class="carousel-controls">
+                    <button onclick="previousImage()">Previous</button>
+                    <span id="imageCounter">1 / 5</span>
+                    <button onclick="nextImage()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="calculator-section">
+            <h2>Service Price Calculator</h2>
+            <div class="price-calculator">
+                <label>
+                    <input type="checkbox" value="35" onchange="calculateTotal()"> Premium Cut ($35)
+                </label>
+                <label>
+                    <input type="checkbox" value="20" onchange="calculateTotal()"> Styling ($20)
+                </label>
+                <label>
+                    <input type="checkbox" value="45" onchange="calculateTotal()"> Color Treatment ($45)
+                </label>
+                <label>
+                    <input type="checkbox" value="25" onchange="calculateTotal()"> Deep Conditioning ($25)
+                </label>
+                <div class="total-display">
+                    <h3>Total: $<span id="totalPrice">0</span></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonials-section">
+            <h2>What Clients Say</h2>
+            <button id="startSlideshow">Start Testimonials Slideshow</button>
+            <div id="testimonialSlider">
+                <div class="testimonial active">
+                    <p>"Nice work"</p>
+                    <span>Nimrod</span>
+                </div>
+                <div class="testimonial">
+                    <p>"Amazing service!"</p>
+                    <span>David</span>
+                </div>
+                <div class="testimonial">
+                    <p>"WOW"</p>
+                    <span>Emma</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+        .testimonial { display: none; padding: 20px; text-align: center; }
+        .testimonial.active { display: block; }
+        .price-calculator label { display: block; margin: 10px 0; }
+        .total-display { margin-top: 20px; font-weight: bold; }
+        .carousel-controls { text-align: center; margin-top: 10px; }
+    </style>
+
+    <script>
+        // JavaScript Element 1: Image Gallery Carousel
+        let currentImageIndex = 0;
+        const images = ['/images/style1.png', '/images/style2.png', '/images/style3.png', '/images/style4.png', '/images/style5.png'];
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateGalleryImage();
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateGalleryImage();
+        }
+
+        function updateGalleryImage() {
+            document.getElementById('galleryImage').src = images[currentImageIndex];
+            document.getElementById('imageCounter').textContent = `${currentImageIndex + 1} / ${images.length}`;
+        }
+
+        // JavaScript Element 2: Price Calculator
+        function calculateTotal() {
+            const checkboxes = document.querySelectorAll('.price-calculator input[type="checkbox"]');
+            let total = 0;
+            
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    total += parseInt(checkbox.value);
+                }
+            });
+            
+            document.getElementById('totalPrice').textContent = total;
+        }
+
+        // jQuery Element: Animated Testimonials Slideshow
+        $(document).ready(function() {
+            let slideshowInterval;
+            
+            $('#startSlideshow').click(function() {
+                if (slideshowInterval) {
+                    clearInterval(slideshowInterval);
+                    slideshowInterval = null;
+                    $(this).text('Start Slideshow');
+                } else {
+                    slideshowInterval = setInterval(function() {
+                        let $current = $('.testimonial.active');
+                        let $next = $current.next('.testimonial');
+                        
+                        if ($next.length === 0) {
+                            $next = $('.testimonial').first();
+                        }
+                        
+                        $current.fadeOut(300, function() {
+                            $current.removeClass('active');
+                            $next.addClass('active').fadeIn(300);
+                        });
+                    }, 2000);
+                    $(this).text('Stop Slideshow');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

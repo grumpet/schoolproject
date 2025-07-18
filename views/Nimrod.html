@@ -5,9 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nimrod's barber profile</title>
     <link rel="stylesheet" href="/css/styles.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    
+    <div class="profile-container">
+        <header class="profile-header">
+            <h1>Nimrod</h1>
+        </header>
+
+        <div class="price-calculator-section">
+            <h2>Price</h2>
+            <div class="calculator-container">
+                <select id="serviceSelect">
+                    <option value="0">Pick service</option>
+                    <option value="35">Cut - $35</option>
+                    <option value="25">Beard - $25</option>
+                    <option value="45">Full - $45</option>
+                    <option value="20">Trim - $20</option>
+                </select>
+                <div class="addon-options">
+                    <label><input type="checkbox" value="10"> Towel (+$10)</label>
+                    <label><input type="checkbox" value="15"> Wash (+$15)</label>
+                    <label><input type="checkbox" value="5"> Aftershave (+$5)</label>
+                </div>
+                <button onclick="calculateTotal()">Total</button>
+                <div id="totalPrice" class="price-display">Total: $0</div>
+            </div>
+        </div>
+
+        <div class="gallery-section">
+            <h2>Gallery</h2>
+            <div class="animated-gallery">
+                <div id="galleryContainer">
+                    <img id="currentImage" src="/images/style1.png" alt="Cut 1">
+                </div>
+                <div class="gallery-progress">
+                    <div id="progressBar"></div>
+                </div>
+                <button onclick="toggleGalleryAnimation()" id="galleryToggle">Start</button>
+            </div>
+        </div>
+
+        <div class="testimonials-section">
+            <h2>Reviews</h2>
+            <div id="testimonialCarousel" class="testimonial-container">
+                <div class="testimonial-item active">
+                    <p>"Great cut!"</p>
+                    <span class="client-name">- Bob</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Best barber!"</p>
+                    <span class="client-name">- Tom</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Good service!"</p>
+                    <span class="client-name">- Sam</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Nice work!"</p>
+                    <span class="client-name">- Jim</span>
+                </div>
+            </div>
+            <button id="rotateTestimonials">Auto Reviews</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Element 1: Price Calculator
+        function calculateTotal() {
+            const serviceSelect = document.getElementById('serviceSelect');
+            const checkboxes = document.querySelectorAll('.addon-options input[type="checkbox"]:checked');
+            const totalDisplay = document.getElementById('totalPrice');
+            
+            let total = parseInt(serviceSelect.value) || 0;
+            
+            checkboxes.forEach(checkbox => {
+                total += parseInt(checkbox.value);
+            });
+            
+            totalDisplay.textContent = `Total: $${total}`;
+            totalDisplay.style.transform = 'scale(1.1)';
+            totalDisplay.style.color = '#00b894';
+            
+            setTimeout(() => {
+                totalDisplay.style.transform = 'scale(1)';
+                totalDisplay.style.color = '#2c3e50';
+            }, 300);
+        }
+
+        // JavaScript Element 2: Animated Gallery
+        const galleryImages = [
+            "/images/style1.png",
+            "/images/style2.png",
+            "/images/style3.png",
+            "/images/style4.png",
+            "/images/style5.png"
+        ];
+        
+        let currentImageIndex = 0;
+        let galleryInterval;
+        let isGalleryRunning = false;
+        
+        function toggleGalleryAnimation() {
+            const button = document.getElementById('galleryToggle');
+            const progressBar = document.getElementById('progressBar');
+            
+            if (isGalleryRunning) {
+                clearInterval(galleryInterval);
+                isGalleryRunning = false;
+                button.textContent = 'Start';
+                progressBar.style.width = '0%';
+            } else {
+                startGalleryAnimation();
+                isGalleryRunning = true;
+                button.textContent = 'Stop';
+            }
+        }
+        
+        function startGalleryAnimation() {
+            const progressBar = document.getElementById('progressBar');
+            let progress = 0;
+            
+            galleryInterval = setInterval(() => {
+                progress += 2;
+                progressBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+                    const img = document.getElementById('currentImage');
+                    img.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        img.src = galleryImages[currentImageIndex];
+                        img.style.opacity = '1';
+                    }, 200);
+                    
+                    progress = 0;
+                }
+            }, 50);
+        }
+
+        // jQuery Element: Testimonial Rotator
+        $(document).ready(function() {
+            let testimonialRotator;
+            let isRotating = false;
+            
+            $('#rotateTestimonials').click(function() {
+                if (isRotating) {
+                    clearInterval(testimonialRotator);
+                    $(this).text('Auto Reviews');
+                    isRotating = false;
+                } else {
+                    testimonialRotator = setInterval(function() {
+                        const $current = $('.testimonial-item.active');
+                        const $next = $current.next('.testimonial-item').length ? 
+                                     $current.next('.testimonial-item') : 
+                                     $('.testimonial-item').first();
+                        
+                        $current.removeClass('active').fadeOut(300, function() {
+                            $next.addClass('active').fadeIn(300);
+                        });
+                    }, 3000);
+                    
+                    $(this).text('Stop Auto');
+                    isRotating = true;
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>

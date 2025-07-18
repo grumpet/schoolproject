@@ -11,6 +11,16 @@ router.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../views/index.html'));
 });
 
+// Profile page 
+router.get('/profiles', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '../views/profiles.html'));
+});
+
+// Individual barber profiles
+router.get('/profiles/:name', (req, res, next) => {
+  const barberName = req.params.name;
+  res.sendFile(path.join(__dirname, `../views/${barberName}.html`));
+});
 // Authentication routes
 router.get('/login', authController.getLogin);
 router.post('/login', authController.postLogin);

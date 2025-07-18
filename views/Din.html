@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Din</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="profile-container">
+        <header class="profile-header">
+            <h1>Din</h1>
+        </header>
+
+        <div class="services-section">
+            <h2>Services</h2>
+            <button id="toggleServices" onclick="toggleServiceList()">Show Services</button>
+            <ul id="serviceList" style="display: none;">
+                <li>Cut - $25</li>
+                <li>Beard - $15</li>
+                <li>Shave - $30</li>
+                <li>Wash - $10</li>
+            </ul>
+        </div>
+
+        <div class="booking-section">
+            <h2>Book</h2>
+            <button id="bookingBtn" onclick="showBookingForm()">Book</button>
+            <div id="bookingForm" style="display: none;">
+                <input type="text" placeholder="Name" id="customerName">
+                <input type="date" id="appointmentDate">
+                <button onclick="submitBooking()">Book</button>
+            </div>
+        </div>
+
+        <div class="review-section">
+            <h2>Reviews</h2>
+            <button id="fadeReviews">Show Reviews</button>
+            <div id="reviewsContainer">
+                <div class="review">
+                    <p>"Great cut!"</p>
+                    <span>- John</span>
+                </div>
+                <div class="review">
+                    <p>"Good service!"</p>
+                    <span>- Mike</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Element 1
+        function toggleServiceList() {
+            const serviceList = document.getElementById('serviceList');
+            if (serviceList.style.display === 'none') {
+                serviceList.style.display = 'block';
+            } else {
+                serviceList.style.display = 'none';
+            }
+        }
+
+        // JavaScript Element 2
+        function showBookingForm() {
+            const form = document.getElementById('bookingForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function submitBooking() {
+            const name = document.getElementById('customerName').value;
+            const date = document.getElementById('appointmentDate').value;
+            
+            if (name && date) {
+                alert(`Booked for ${name} on ${date}`);
+                document.getElementById('bookingForm').style.display = 'none';
+                document.getElementById('customerName').value = '';
+                document.getElementById('appointmentDate').value = '';
+            } else {
+                alert('Fill all fields');
+            }
+        }
+
+        // jQuery Element
+        $(document).ready(function() {
+            $('#fadeReviews').click(function() {
+                $('#reviewsContainer').fadeToggle(500);
+            });
+        });
+    </script>
+</body>
+</html>
