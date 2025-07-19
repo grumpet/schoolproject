@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Purchase - Sharp Cuts Barber Shop</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1>Purchase Hair Products</h1>
+    
+    <form action="process_purchase.php" method="post">
+        <div>
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name" required>
+        </div>
+        
+        <div>
+            <label for="customer_email">Customer Email:</label>
+            <input type="email" id="customer_email" name="customer_email" required>
+        </div>
+        
+        <div>
+            <label for="product_name">Product:</label>
+            <select id="product_name" name="product_name" required>
+                <option value="">Select a Product</option>
+                <option value="Premium Hair Pomade">Premium Hair Pomade - $18.99</option>
+                <option value="Beard Oil Natural Blend">Beard Oil Natural Blend - $22.50</option>
+                <option value="Professional Shampoo">Professional Shampoo - $24.99</option>
+                <option value="Straight Razor Premium">Straight Razor Premium - $89.99</option>
+                <option value="Hair Wax Strong Hold">Hair Wax Strong Hold - $16.75</option>
+                <option value="Aftershave Balm">Aftershave Balm - $19.99</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required>
+        </div>
+        
+        <div>
+            <label for="unit_price">Unit Price ($):</label>
+            <input type="number" id="unit_price" name="unit_price" step="0.01" min="0" required readonly>
+        </div>
+        
+        <div>
+            <label for="total_amount">Total Amount ($):</label>
+            <input type="number" id="total_amount" name="total_amount" step="0.01" min="0" required readonly>
+        </div>
+        
+        <input type="submit" value="Purchase">
+        <input type="reset" value="Reset Form">
+    </form>
+
+    <script>
+        // Price mapping
+        const productPrices = {
+            'Premium Hair Pomade': 18.99,
+            'Beard Oil Natural Blend': 22.50,
+            'Professional Shampoo': 24.99,
+            'Straight Razor Premium': 89.99,
+            'Hair Wax Strong Hold': 16.75,
+            'Aftershave Balm': 19.99
+        };
+
+        // Update prices when product changes
+        document.getElementById('product_name').addEventListener('change', function() {
+            const selectedProduct = this.value;
+            const unitPriceField = document.getElementById('unit_price');
+            const quantityField = document.getElementById('quantity');
+            const totalField = document.getElementById('total_amount');
+            
+            if (selectedProduct && productPrices[selectedProduct]) {
+                unitPriceField.value = productPrices[selectedProduct].toFixed(2);
+                updateTotal();
+            } else {
+                unitPriceField.value = '';
+                totalField.value = '';
+            }
+        });
+
+        // Update total when quantity changes
+        document.getElementById('quantity').addEventListener('input', updateTotal);
+
+        function updateTotal() {
+            const unitPrice = parseFloat(document.getElementById('unit_price').value) || 0;
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            const total = unitPrice * quantity;
+            document.getElementById('total_amount').value = total.toFixed(2);
+        }
+    </script>
+</body>
+</html>
