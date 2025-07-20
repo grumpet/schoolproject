@@ -82,7 +82,11 @@ if (!$conn) {
     // Execute query
     if (mysqli_query($conn, $sql)) {
         log_message('Purchase record inserted successfully');
+        echo "<header>";
         echo "<h2>Purchase Successful!</h2>";
+        echo "</header>";
+        echo "<main>";
+        echo "<link rel='stylesheet' href='styles.css'>";
         echo "<p><strong>Customer:</strong> $customer_name</p>";
         echo "<p><strong>Email:</strong> $customer_email</p>";
         echo "<p><strong>Product:</strong> $product_name</p>";
@@ -92,6 +96,8 @@ if (!$conn) {
         echo "<p><strong>Purchase Date:</strong> " . date('Y-m-d H:i:s') . "</p>";
         echo "<p><a href='index.html'>Make Another Purchase</a></p>";
         echo "<p><a href='view_purchases.php'>View All Purchases</a></p>";
+        echo "<button onclick=\"window.location.href='http://vmedu416.mtacloud.co.il:3000/'\">Back to Barber Shop Website</button>";
+        echo "</main>";
     } else {
         $error = mysqli_error($conn);
         log_message("SQL Error: $error");

@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Purchase - Sharp Cuts Barber Shop</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Purchase Hair Products</h1>
-    
-    <form action="process_purchase.php" method="post">
-        <div>
-            <label for="customer_name">Customer Name:</label>
-            <input type="text" id="customer_name" name="customer_name" required>
-        </div>
+    <header>
+        <h1>Purchase Hair Products</h1>
+    </header>
+    <main>
+        <form action="process_purchase.php" method="post">
+            <div>
+                <label for="customer_name">Customer Name:</label>
+                <input type="text" id="customer_name" name="customer_name" required>
+            </div>
         
         <div>
             <label for="customer_email">Customer Email:</label>
@@ -51,7 +53,8 @@
         <input type="submit" value="Purchase">
         <input type="reset" value="Reset Form">
     </form>
-
+        <a href="http://vmedu416.mtacloud.co.il:3000/"><button>Back to Barber Shop</button></a>
+    </main>
     <script>
         // Price mapping
         const productPrices = {
