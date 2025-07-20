@@ -15,12 +15,15 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+echo "<header>";
 echo "<h1>Product Purchases History</h1>";
-echo "<p><a href='index.html'>Make New Purchase</a></p>";
+echo "<link rel='stylesheet' href='styles.css'>";
+echo "</header>";
 
 $sql = "SELECT * FROM product_purchases ORDER BY purchase_date DESC";
 $result = mysqli_query($conn, $sql);
 
+echo "<main>";
 if (mysqli_num_rows($result) > 0) {
     echo "<table border='1' style='border-collapse: collapse; width: 100%;'>";
     echo "<tr>
@@ -50,6 +53,9 @@ if (mysqli_num_rows($result) > 0) {
 } else {
     echo "<p>No purchases found.</p>";
 }
+echo "<button onclick=\"window.location.href='http://vmedu416.mtacloud.co.il:3000/'\">Back to Barber Shop Website</button>";
+
+echo "</main>";
 
 mysqli_close($conn);
 ?>
