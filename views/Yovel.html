@@ -46,20 +46,36 @@
 
         <div class="testimonials-section">
             <h2>What Clients Say</h2>
+            
+            <!-- New input form for user data -->
+            <div class="testimonial-form">
+                <h3>Add Your Testimonial</h3>
+                <input type="text" id="clientName" placeholder="Your name" maxlength="50">
+                <textarea id="testimonialText" placeholder="Share your experience..." maxlength="200"></textarea>
+                <button id="addTestimonial">Add Testimonial</button>
+            </div>
+            
             <button id="startSlideshow">Start Testimonials Slideshow</button>
             <div id="testimonialSlider">
+                <!-- ...existing testimonials... -->
                 <div class="testimonial active">
-                    <p>"Nice work"</p>
+                    <p>Nice work</p>
                     <span>Nimrod</span>
                 </div>
                 <div class="testimonial">
-                    <p>"Amazing service!"</p>
+                    <p>Amazing service!</p>
                     <span>David</span>
                 </div>
                 <div class="testimonial">
-                    <p>"WOW"</p>
+                    <p>WOW</p>
                     <span>Emma</span>
                 </div>
+            </div>
+            
+            <!-- Display area for user entries -->
+            <div class="user-entries">
+                <h3>Recent Entries</h3>
+                <div id="entriesList"></div>
             </div>
         </div>
 
@@ -71,6 +87,11 @@
         .price-calculator label { display: block; margin: 10px 0; }
         .total-display { margin-top: 20px; font-weight: bold; }
         .carousel-controls { text-align: center; margin-top: 10px; }
+        .testimonial-form { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        .testimonial-form input, .testimonial-form textarea { width: 100%; margin: 10px 0; padding: 8px; border: 1px solid #ddd; border-radius: 3px; }
+        .testimonial-form button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        .user-entries { margin-top: 20px; }
+        .entry-item { padding: 10px; margin: 5px 0; background: #f8f9fa; border-left: 4px solid #007bff; }
     </style>
 
     <script>
@@ -110,12 +131,56 @@
         // jQuery Element: Animated Testimonials Slideshow
         $(document).ready(function() {
             let slideshowInterval;
+            let userEntries = [];
             
+            // Handle testimonial form submission
+            $('#addTestimonial').click(function() {
+                const name = $('#clientName').val().trim();
+                const text = $('#testimonialText').val().trim();
+                
+                if (name && text) {
+                    // Add to testimonials slideshow
+                    const newTestimonial = `<div class="testimonial"><p>${text}</p><span>${name}</span></div>`;
+                    $('#testimonialSlider').append(newTestimonial);
+                    
+                    // Add to user entries display
+                    const entry = { name: name, text: text, timestamp: new Date().toLocaleString() };
+                    userEntries.unshift(entry); // Add to beginning of array
+                    
+                    displayEntries();
+                    
+                    // Clear form
+                    $('#clientName').val('');
+                    $('#testimonialText').val('');
+                    
+                    // Show success message
+                    $('<div class="success-message">Testimonial added successfully!</div>')
+                        .insertAfter('#addTestimonial')
+                        .delay(2000)
+                        .fadeOut();
+                } else {
+                    alert('Please fill in both name and testimonial fields.');
+                }
+            });
+            
+            // Display user entries
+            function displayEntries() {
+                const entriesHtml = userEntries.map(entry => 
+                    `<div class="entry-item">
+                        <strong>${entry.name}</strong> - <em>${entry.timestamp}</em>
+                        <p>${entry.text}</p>
+                    </div>`
+                ).join('');
+                
+                $('#entriesList').html(entriesHtml);
+            }
+            
+            // Enhanced slideshow functionality
             $('#startSlideshow').click(function() {
                 if (slideshowInterval) {
                     clearInterval(slideshowInterval);
                     slideshowInterval = null;
-                    $(this).text('Start Slideshow');
+                    $(this).text('Start Testimonials Slideshow');
                 } else {
                     slideshowInterval = setInterval(function() {
                         let $current = $('.testimonial.active');
@@ -130,7 +195,7 @@
                             $next.addClass('active').fadeIn(300);
                         });
                     }, 2000);
-                    $(this).text('Stop Slideshow');
+                    $(this).text('Stop Testimonials Slideshow');
                 }
             });
         });
