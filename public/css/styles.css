@@ -50,7 +50,6 @@ header h1 {
     cursor: pointer;
 }
 
-
 .nav form {
     margin: 0;
 }
@@ -115,9 +114,6 @@ button {
     transition: all 0.3s ease;
 }
 
-
-
-
 .rating {
     display: flex;
     gap: 15px;
@@ -146,12 +142,12 @@ button {
     background: #dfe6e9;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
 }
 
-.answer{
+.answer {
     display: none;
 }
+
 .question {
     font-weight: bold;
     color: #2c3e50;
@@ -258,138 +254,6 @@ button {
     font-weight: 600;
 }
 
-/* Media Queries */
-@media (max-width: 768px) {
-    body { padding: 10px; }
-    header { padding: 15px; margin-bottom: 20px; }
-    header h1 { font-size: 1.8rem; }
-    .nav { gap: 10px; }
-    .nav a, .nav button { padding: 8px 12px; font-size: 0.9rem; }
-    main { padding: 20px; }
-    form { max-width: 100%; }
-    .rating { flex-direction: column; gap: 10px; }
-    .dashboard-actions { flex-direction: column; }
-    .appointments-table th, .appointments-table td { padding: 10px 8px; }
-}
-
-@media (max-width: 480px) {
-    header h1 { font-size: 1.5rem; }
-    .nav { gap: 8px; }
-    .nav a, .nav button { padding: 6px 10px; font-size: 0.8rem; }
-    main { padding: 15px; }
-    .service, .faq-item { padding: 15px; margin-bottom: 15px; }
-    input, select, textarea { padding: 10px 12px; font-size: 14px; }
-    button { padding: 12px 24px; font-size: 14px; }
-    .appointments-table { font-size: 0.8rem; display: block; overflow-x: auto; }
-    .error-popup { top: 10px; right: 10px; left: 10px; font-size: 0.9rem; }
-}
-    
-    
-    .nav a {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-    }
-    
-    .nav button {
-        padding: 8px 12px;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-    }
-    
-    main {
-        padding: 20px;
-    }
-    
-    form {
-        max-width: 100%;
-    }
-    
-    .rating {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .rating label {
-        justify-content: flex-start;
-    }
-    
-    .dashboard-actions {
-        flex-direction: column;
-    }
-    
-    .dashboard-actions a {
-        text-align: center;
-    }
-    
-    .appointments-table {
-        font-size: 0.9rem;
-    }
-    
-    .appointments-table th,
-    .appointments-table td {
-        padding: 10px 8px;
-    }
-
-
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .nav {
-        gap: 8px;
-    }
-    
-    .nav a {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
-    
-    .nav button {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
-    
-    main {
-        padding: 15px;
-    }
-    
-    .service {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    
-    .faq-item {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    
-    input, select, textarea {
-        padding: 10px 12px;
-        font-size: 14px;
-    }
-    
-    button {
-        padding: 12px 24px;
-        font-size: 14px;
-    }
-    
-    .appointments-table {
-        font-size: 0.8rem;
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    
-    .error-popup {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        font-size: 0.9rem;
-    }
-}
-
 /* Feedback Page Styles */
 .feedback-stats {
     display: flex;
@@ -479,19 +343,7 @@ button {
     color: #e74c3c;
 }
 
-@media (max-width: 768px) {
-    .feedback-stats {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .feedback-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-/*images for yovel.html*/
+/* Barber Profile Styles */
 .image-carousel {
     display: flex;
     flex-direction: column;
@@ -515,26 +367,12 @@ button {
     justify-content: center;
 }
 
-/* Din's Profile Specific Styles */
-.profile-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 .profile-header {
     color: white;
     text-align: center;
     padding: 30px;
     border-radius: 15px;
     margin-bottom: 30px;
-}
-
-.price-calculator-section h2,
-.gallery-section h2,
-.testimonials-section h2 {
-    margin-bottom: 15px;
-    color: #2c3e50;
 }
 
 .calculator-container {
@@ -617,11 +455,6 @@ button {
     margin: 10px 0 5px 0;
 }
 
-.stars {
-    color: #f39c12;
-    font-size: 1.2rem;
-}
-
 /* Applicants Table Styles */
 #applicants-container table {
     width: 100%;
@@ -648,6 +481,173 @@ button {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+#applicants-container tbody tr {
+    transition: all 0.3s ease;
+}
+
+#applicants-container tbody tr:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#applicants-container tbody tr:nth-child(even) {
+    background: rgba(116, 185, 255, 0.05);
+}
+
+#applicants-container tbody tr:nth-child(even):hover {
+    background: #f8f9fa;
+}
+
+#applicants-container td {
+    font-size: 0.9rem;
+    color: #2c3e50;
+}
+
+#applicants-container td:first-child {
+    font-weight: 600;
+}
+
+#applicants-container td:nth-child(4) {
+    color: #74b9ff;
+    font-weight: 500;
+}
+
+#loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    body { 
+        padding: 10px; 
+    }
+    
+    header { 
+        padding: 15px; 
+        margin-bottom: 20px; 
+    }
+    
+    header h1 { 
+        font-size: 1.8rem; 
+    }
+    
+    .nav { 
+        gap: 10px; 
+    }
+    
+    .nav a, .nav button { 
+        padding: 8px 12px; 
+        font-size: 0.9rem; 
+    }
+    
+    main { 
+        padding: 20px; 
+    }
+    
+    form { 
+        max-width: 100%; 
+    }
+    
+    .rating { 
+        flex-direction: column; 
+        gap: 10px; 
+    }
+    
+    .dashboard-actions { 
+        flex-direction: column; 
+    }
+    
+    .appointments-table th, .appointments-table td { 
+        padding: 10px 8px; 
+    }
+    
+    .feedback-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .feedback-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #applicants-container table {
+        font-size: 0.8rem;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    #applicants-container th,
+    #applicants-container td {
+        padding: 10px 8px;
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 { 
+        font-size: 1.5rem; 
+    }
+    
+    .nav { 
+        gap: 8px; 
+    }
+    
+    .nav a, .nav button { 
+        padding: 6px 10px; 
+        font-size: 0.8rem; 
+    }
+    
+    main { 
+        padding: 15px; 
+    }
+    
+    .service, .faq-item { 
+        padding: 15px; 
+        margin-bottom: 15px; 
+    }
+    
+    input, select, textarea { 
+        padding: 10px 12px; 
+        font-size: 14px; 
+    }
+    
+    button { 
+        padding: 12px 24px; 
+        font-size: 14px; 
+    }
+    
+    .appointments-table { 
+        font-size: 0.8rem; 
+        display: block; 
+        overflow-x: auto; 
+    }
+    
+    .error-popup { 
+        top: 10px; 
+        right: 10px; 
+        left: 10px; 
+        font-size: 0.9rem; 
+    }
+    
+    #applicants-container th,
+    #applicants-container td {
+        padding: 8px 6px;
+        font-size: 0.75rem;
+        min-width: 80px;
+    }
+    
+    #applicants-container th {
+        font-size: 0.7rem;
+    }
+}
+
 
 #applicants-container tbody tr {
     transition: all 0.3s ease;
