@@ -617,3 +617,7 @@ button {
     color: #f39c12;
     font-size: 1.2rem;
 }
+
+#white-button {
+    background-color: white !important;
+}

@@ -53,10 +53,9 @@
         <input type="submit" value="Purchase">
         <input type="reset" value="Reset Form">
     </form>
-        <a href="http://vmedu416.mtacloud.co.il:3000/"><button>Back to Barber Shop</button></a>
+        <a href="http://vmedu416.mtacloud.co.il:3000/"><button id="white-button">Back to Barber Shop</button></a>
     </main>
     <script>
-        // Price mapping
         const productPrices = {
             'Premium Hair Pomade': 18.99,
             'Beard Oil Natural Blend': 22.50,
@@ -66,7 +65,6 @@
             'Aftershave Balm': 19.99
         };
 
-        // Update prices when product changes
         document.getElementById('product_name').addEventListener('change', function() {
             const selectedProduct = this.value;
             const unitPriceField = document.getElementById('unit_price');
@@ -82,7 +80,6 @@
             }
         });
 
-        // Update total when quantity changes
         document.getElementById('quantity').addEventListener('input', updateTotal);
 
         function updateTotal() {
