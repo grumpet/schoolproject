@@ -39,10 +39,6 @@ router.get('/register', authController.getRegister);
 router.post('/register', authController.postRegister);
 router.post('/logout', authController.postLogout);
 
-// Services menu
-router.get('/menu', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/menu.html'));
-});
 
 // Dashboard (protected route)
 router.get('/dashboard', authMiddleware.requireAuth, barberController.getDashboard);

@@ -1,0 +1,93 @@
+=== Sharp Cuts Barber Shop - Project Description ===
+
+GENERAL PROJECT DESCRIPTION:
+Sharp Cuts Barber Shop is a comprehensive web application for managing a barber shop business. 
+The system provides functionality for customers to book appointments, view services, leave feedback, 
+and for the business to manage operations and view applications for job positions.
+
+MAIN FUNCTIONALITIES:
+1. User Authentication - Registration, Login, Logout
+2. Appointment Booking - Customers can book appointments for various services
+3. Dashboard - Users can view their booked appointments
+4. Barber Profiles - Individual pages for each barber with galleries and pricing
+5. Customer Surveys - Feedback collection system
+6. FAQ System - Interactive Q&A section
+7. Job Applications - Help wanted system for recruiting new staff
+8. Services Menu - Display of available services and pricing
+9. Feedback Viewing - Administrative view of all customer feedback
+
+TECHNICAL STACK:
+- Backend: Node.js with Express.js
+- Database: MySQL
+- Frontend: HTML, CSS, JavaScript, jQuery
+- Session Management: Express sessions
+- Password Encryption: bcrypt
+
+=== MVC ARCHITECTURE BREAKDOWN ===
+
+| VIEW FILE | ROUTER ENDPOINT | CONTROLLER METHOD | MODEL CLASS | DATABASE TABLE | FUNCTIONALITY | DATA FLOW |
+|-----------|----------------|-------------------|-------------|----------------|---------------|-----------|
+| index.html | GET / | - | - | - | Home page display | Display Only |
+| login.html | GET/POST /login | auth.getLogin, auth.postLogin | User | users | User authentication | Display & Save |
+| register.html | GET/POST /register | auth.getRegister, auth.postRegister | User | users | User registration | Display & Save |
+| dashboard.html | GET /dashboard | barber.getDashboard | Appointment | appointments, services | User appointment view | Display Only |
+| signup.html | GET/POST /signup | -, barber.saveAppointment | Appointment | appointments, services | Appointment booking | Display & Save |
+| menu.html | GET /menu | - | - | services | Services display | Display Only |
+| survey.html | GET/POST /survey | -, barber.saveSurvey | Survey | survey_responses, services | Customer feedback | Display & Save |
+| feedback.html | GET /feedback | barber.getFeedback | Survey | survey_responses, services | Feedback viewing | Display Only |
+| qa.html | GET /qa | - | - | - | FAQ display | Display Only |
+| profiles.html | GET /profiles | - | - | - | Barber list | Display Only |
+| Nimrod.html | GET /profiles/Nimrod | - | - | - | Barber profile | Display Only |
+| Yovel.html | GET /profiles/Yovel | - | - | - | Barber profile | Display Only |
+| Din.html | GET /profiles/Din | - | - | - | Barber profile | Display Only |
+| help_wanted_1.html | GET /help-wanted | helpWanted.getHelpWantedForm | - | - | Job application form | Display Only |
+| help_wanted_2.html | GET /help_wanted_2 | - | - | - | Application review | Display Only |
+| view_applicants.html | GET /view-applicants | helpWanted.getViewApplicants | HelpWanted | help_wanted | Applications viewing | Display Only |
+| 404.html | Catch-all | - | - | - | Error page | Display Only |
+
+=== API ENDPOINTS ===
+
+| ENDPOINT | METHOD | CONTROLLER | MODEL | TABLE | PURPOSE |
+|----------|--------|------------|-------|-------|---------|
+| /api/feedback | GET | - | Survey | survey_responses | Fetch all feedback |
+| /api/my-appointments | GET | - | Appointment | appointments | Fetch user appointments |
+| /api/applicants | GET | helpWanted.getAllApplications | HelpWanted | help_wanted | Fetch job applications |
+
+=== DATABASE SCHEMA ===
+
+TABLES:
+1. users - User accounts (id, first_name, last_name, email, password, created_at)
+2. appointments - Booked appointments (id, user_id, name, email, phone, service_id, appointment_date, appointment_time, status, created_at)
+3. services - Available services (id, name, price, duration)
+4. survey_responses - Customer feedback (id, rating, barber_id, comments, email, service_id, recommendation, created_at)
+5. help_wanted - Job applications (id, first_name, last_name, email, phone, position, experience_years, created_at)
+
+=== CONTROLLERS BREAKDOWN ===
+
+1. auth.js - Authentication logic (login, register, logout)
+2. barber.js - Main business logic (appointments, surveys, dashboard)
+3. helpWanted.js - Job applications management
+4. products.js - Legacy product management (unused in current flow)
+
+=== MODELS BREAKDOWN ===
+
+1. User.js - User management with password hashing
+2. Appointment.js - Appointment booking and retrieval
+3. Survey.js - Customer feedback management
+4. HelpWanted.js - Job applications handling
+
+=== SPECIAL FEATURES ===
+
+1. JavaScript Interactivity - Image carousels, price calculators, form validation
+2. jQuery Integration - Dynamic content, animations, AJAX-like functionality
+3. Session-based Authentication - Protected routes and user state management
+4. Responsive Design - Mobile-friendly interface
+5. Real-time Feedback - Interactive testimonials and reviews
+
+=== SECURITY FEATURES ===
+
+1. Password Hashing - bcrypt for secure password storage
+2. Session Management - Server-side session handling
+3. Authentication Middleware - Protected route access
+4. Input Validation - Form validation on both client and server side
+5. SQL Injection Prevention - Prepared statements in database queries
