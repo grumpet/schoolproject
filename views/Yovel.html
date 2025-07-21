@@ -47,7 +47,6 @@
         <div class="testimonials-section">
             <h2>What Clients Say</h2>
             
-            <!-- New input form for user data -->
             <div class="testimonial-form">
                 <h3>Add Your Testimonial</h3>
                 <input type="text" id="clientName" placeholder="Your name" maxlength="50">
@@ -55,24 +54,7 @@
                 <button id="addTestimonial">Add Testimonial</button>
             </div>
             
-            <button id="startSlideshow">Start Testimonials Slideshow</button>
-            <div id="testimonialSlider">
-                <!-- ...existing testimonials... -->
-                <div class="testimonial active">
-                    <p>Nice work</p>
-                    <span>Nimrod</span>
-                </div>
-                <div class="testimonial">
-                    <p>Amazing service!</p>
-                    <span>David</span>
-                </div>
-                <div class="testimonial">
-                    <p>WOW</p>
-                    <span>Emma</span>
-                </div>
-            </div>
-            
-            <!-- Display area for user entries -->
+
             <div class="user-entries">
                 <h3>Recent Entries</h3>
                 <div id="entriesList"></div>
@@ -82,8 +64,7 @@
     </div>
 
     <style>
-        .testimonial { display: none; padding: 20px; text-align: center; }
-        .testimonial.active { display: block; }
+        .testimonial { display: block; padding: 20px; text-align: center; margin: 10px 0; border: 1px solid #eee; border-radius: 5px; }
         .price-calculator label { display: block; margin: 10px 0; }
         .total-display { margin-top: 20px; font-weight: bold; }
         .carousel-controls { text-align: center; margin-top: 10px; }
@@ -128,9 +109,8 @@
             document.getElementById('totalPrice').textContent = total;
         }
 
-        // jQuery Element: Animated Testimonials Slideshow
+        // jQuery Element: User Data Entry and Display
         $(document).ready(function() {
-            let slideshowInterval;
             let userEntries = [];
             
             // Handle testimonial form submission
@@ -139,21 +119,17 @@
                 const text = $('#testimonialText').val().trim();
                 
                 if (name && text) {
-                    // Add to testimonials slideshow
                     const newTestimonial = `<div class="testimonial"><p>${text}</p><span>${name}</span></div>`;
                     $('#testimonialSlider').append(newTestimonial);
                     
-                    // Add to user entries display
                     const entry = { name: name, text: text, timestamp: new Date().toLocaleString() };
-                    userEntries.unshift(entry); // Add to beginning of array
+                    userEntries.unshift(entry); 
                     
                     displayEntries();
                     
-                    // Clear form
                     $('#clientName').val('');
                     $('#testimonialText').val('');
                     
-                    // Show success message
                     $('<div class="success-message">Testimonial added successfully!</div>')
                         .insertAfter('#addTestimonial')
                         .delay(2000)
@@ -174,30 +150,6 @@
                 
                 $('#entriesList').html(entriesHtml);
             }
-            
-            // Enhanced slideshow functionality
-            $('#startSlideshow').click(function() {
-                if (slideshowInterval) {
-                    clearInterval(slideshowInterval);
-                    slideshowInterval = null;
-                    $(this).text('Start Testimonials Slideshow');
-                } else {
-                    slideshowInterval = setInterval(function() {
-                        let $current = $('.testimonial.active');
-                        let $next = $current.next('.testimonial');
-                        
-                        if ($next.length === 0) {
-                            $next = $('.testimonial').first();
-                        }
-                        
-                        $current.fadeOut(300, function() {
-                            $current.removeClass('active');
-                            $next.addClass('active').fadeIn(300);
-                        });
-                    }, 2000);
-                    $(this).text('Stop Testimonials Slideshow');
-                }
-            });
         });
     </script>
 </body>
