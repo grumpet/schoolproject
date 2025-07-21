@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Application - Sharp Cuts Barber Shop</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sharp Cuts Barber Shop</h1>
+        <div class="nav">
+            <a href="/">Home</a>
+            <a href="/menu">Services</a>
+            <a href="/dashboard">My Dashboard</a>
+            <a href="/profiles">Profile</a>
+            <a href="/signup">Book Appointment</a>
+            <a href="/survey">Leave Feedback</a>
+            <a href="/feedback">View Feedback</a>
+            <a href="/qa">FAQ</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <a href="https://dinle.mtacloud.co.il/">Shop</a>
+            <form method="post" action="/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </header>
+    
+    <main>
+        <h2>Review Your Application - Step 2</h2>
+        <p>Please review your information below and submit your application:</p>
+        
+        <div id="review-data"></div>
+        
+        <form method="post" action="/help-wanted-review" id="submitForm">
+        </form>
+        
+        <div class="form-actions">
+            <button type="button" onclick="submitApplication()">Submit Application</button>
+        </div>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const reviewContainer = document.getElementById('review-data');
+            const submitForm = document.getElementById('submitForm');
+            
+            const formData = {
+                firstName: urlParams.get('firstName') || '',
+                lastName: urlParams.get('lastName') || '',
+                email: urlParams.get('email') || '',
+                phone: urlParams.get('phone') || '',
+                position: urlParams.get('position') || '',
+                experienceYears: urlParams.get('experienceYears') || '0'
+            };
+            
+            reviewContainer.innerHTML = `
+                <div class="review-section">
+                    <h3>Application Details:</h3>
+                    <p><strong>Name:</strong> ${formData.firstName} ${formData.lastName}</p>
+                    <p><strong>Email:</strong> ${formData.email}</p>
+                    <p><strong>Phone:</strong> ${formData.phone}</p>
+                    <p><strong>Position:</strong> ${formData.position}</p>
+                    <p><strong>Years of Experience:</strong> ${formData.experienceYears}</p>
+                </div>
+            `;
+            
+            Object.keys(formData).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = formData[key];
+                submitForm.appendChild(input);
+            });
+        });
+        
+        function submitApplication() {
+            document.getElementById('submitForm').submit();
+            alert('Your application has been submitted successfully!');
+        }
+    </script>
+</body>
+</html>

@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Dashboard - Sharp Cuts Barber Shop</title>
+    <title>My Dashboard</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+    <!--
+    This is a dynamic page that diplays the user's appointments.
+    -->
     <header>
         <h1>Sharp Cuts Barber Shop</h1>
         <div class="nav">
@@ -46,6 +49,7 @@
     </main>
     
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
             fetch('/api/my-appointments')
                 .then(response => response.json())

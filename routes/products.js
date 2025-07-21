@@ -5,7 +5,15 @@ const barberController = require('../controllers/barber');
 const authController = require('../controllers/auth');
 const authMiddleware = require('../util/auth');
 const Appointment = require('../models/appointment');
+const helpWantedController = require('../controllers/helpWanted');
 
+// Help Wanted routes
+router.get('/help-wanted', helpWantedController.getHelpWantedForm);
+router.get('/help_wanted_1', helpWantedController.getHelpWantedForm);
+router.get('/help_wanted_2', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '../views/help_wanted/help_wanted_2.html'));
+});
+router.post('/help-wanted-review', helpWantedController.postHelpWanted);
 // Home page
 router.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../views/index.html'));
