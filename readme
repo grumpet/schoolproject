@@ -1,3 +1,111 @@
+# Sharp Cuts Barber Shop - Project Architecture
+
+## Architecture Overview Table
+
+| View/Page | Route | Controller | Model | Middleware | Description |
+|-----------|--------|------------|--------|------------|-------------|
+| **Authentication System** |
+| index.html | GET / | - | - | - | Home page with navigation |
+| login.html | GET /login | authController.getLogin | User | - | Login form page |
+| login.html | POST /login | authController.postLogin | User | - | Process login authentication |
+| register.html | GET /register | authController.getRegister | User | - | Registration form page |
+| register.html | POST /register | authController.postRegister | User | - | Process user registration |
+| - | POST /logout | authController.postLogout | - | - | Destroy user session |
+| **Appointment System** |
+| signup.html | GET /signup | - | - | requireAuth | Appointment booking form |
+| signup.html | POST /signup | barberController.saveAppointment | Appointment | requireAuth | Process appointment booking |
+| dashboard.html | GET /dashboard | barberController.getDashboard | Appointment | requireAuth | User dashboard with appointments |
+| - | GET /api/my-appointments | - | Appointment | requireAuth | API endpoint for user appointments |
+| **Survey/Feedback System** |
+| survey.html | GET /survey | - | - | requireAuth | Customer feedback form |
+| survey.html | POST /survey | barberController.saveSurvey | Survey | requireAuth | Process feedback submission |
+| feedback.html | GET /feedback | barberController.getFeedback | Survey | requireAuth | View all feedback page |
+| - | GET /api/feedback | - | Survey | requireAuth | API endpoint for all feedback |
+| **Barber Profiles** |
+| profiles.html | GET /profiles | - | - | - | List of barber profiles |
+| Nimrod.html | GET /profiles/Nimrod | - | - | - | Nimrod's profile with JS features |
+| Yovel.html | GET /profiles/Yovel | - | - | - | Yovel's profile with jQuery features |
+| Din.html | GET /profiles/Din | - | - | - | Din's profile with interactive features |
+| **Help Wanted System** |
+| help_wanted_1.html | GET /help-wanted | helpWantedController.getHelpWantedForm | - | - | Job application form (Step 1) |
+| help_wanted_1.html | GET /help_wanted_1 | helpWantedController.getHelpWantedForm | - | - | Alternative route to job form |
+| help_wanted_2.html | GET /help_wanted_2 | - | - | - | Job application review (Step 2) |
+| - | POST /help-wanted-review | helpWantedController.postHelpWanted | HelpWanted | - | Process job application |
+| view_applicants.html | GET /view-applicants | helpWantedController.getViewApplicants | - | requireAuth | View all applications page |
+| - | GET /api/applicants | helpWantedController.getAllApplications | HelpWanted | requireAuth | API endpoint for applications |
+| **Static Pages** |
+| menu.html | GET /menu | - | - | - | Services menu page |
+| qa.html | GET /qa | - | - | - | FAQ page with jQuery accordion |
+| 404.html | Catch-all | - | - | - | 404 error page |
+
+## Models and Their Database Tables
+
+| Model | Database Table | Primary Fields | Relationships |
+|-------|----------------|----------------|---------------|
+| User | users | id, first_name, last_name, email, password | One-to-many with Appointments |
+| Appointment | appointments | id, user_id, name, email, phone, service_id, appointment_date, appointment_time, status | Belongs to User, References Services |
+| Survey | survey_responses | id, rating, barber_id, comments, email, service_id, recommendation | References Services |
+| HelpWanted | help_wanted | id, first_name, last_name, email, phone, position, experience_years | Standalone table |
+| Products | products | id, name, code, price | Standalone table (legacy) |
+
+## Controllers and Their Responsibilities
+
+| Controller | File | Main Functions | Purpose |
+|------------|------|----------------|---------|
+| authController | controllers/auth.js | getLogin, postLogin, getRegister, postRegister, postLogout | Handle user authentication |
+| barberController | controllers/barber.js | getDashboard, getFeedback, saveAppointment, saveSurvey | Handle appointments and surveys |
+| helpWantedController | controllers/helpWanted.js | getHelpWantedForm, postHelpWanted, getViewApplicants, getAllApplications | Handle job applications |
+| productsController | controllers/products.js | saveProduct | Handle product operations (legacy) |
+
+## Middleware
+
+| Middleware | File | Purpose | Applied To |
+|------------|------|---------|------------|
+| requireAuth | util/auth.js | Ensure user is logged in | Dashboard, Feedback, Appointments, Survey, View Applicants |
+
+## Frontend JavaScript Features
+
+| Page | JavaScript Type | Features |
+|------|----------------|----------|
+| Nimrod.html | Vanilla JS | Price calculator, Animated gallery, jQuery testimonial rotator |
+| Yovel.html | Mixed JS/jQuery | Image carousel, Price calculator, jQuery testimonial form |
+| Din.html | Mixed JS/jQuery | Service toggle, Booking form, jQuery fade reviews |
+| qa.html | jQuery | FAQ accordion functionality |
+| login.html | jQuery | Error popup handling |
+| dashboard.html | Vanilla JS | Dynamic appointment loading via API |
+| feedback.html | Vanilla JS | Dynamic feedback display and statistics |
+| view_applicants.html | Vanilla JS | Dynamic applicant data loading |
+| help_wanted_2.html | Vanilla JS | Form data review and submission |
+
+## API Endpoints
+
+| Endpoint | Method | Purpose | Authentication Required |
+|----------|--------|---------|------------------------|
+| /api/my-appointments | GET | Fetch user's appointments | Yes |
+| /api/feedback | GET | Fetch all customer feedback | Yes |
+| /api/applicants | GET | Fetch all job applications | Yes |
+
+## Static Resources
+
+| Resource Type | Location | Purpose |
+|---------------|----------|---------|
+| CSS | /css/styles.css | Global styling |
+| JavaScript | /js/book.js | Booking form validation |
+| Images | /images/ | Gallery images for barber profiles |
+
+## Session Management
+
+- Sessions store: userId, userEmail, userName, isLoggedIn
+- Success/Error messages passed via session
+- Session destroyed on logout
+
+## Security Features
+
+- Password hashing using bcrypt
+- Session-based authentication
+- Input validation on forms
+- Protected routes with middleware
+
 password for c panel 
 He74p07^Evs*V.j!
 user for c_panel
