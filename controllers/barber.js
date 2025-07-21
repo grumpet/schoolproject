@@ -61,7 +61,7 @@ exports.saveSurvey = (req, res, next) => {
     survey.save()
         .then(() => {
             console.log('Survey submitted successfully');
-            res.redirect('/');
+            res.redirect('/feedback');
         })
         .catch(err => {
             console.error('Error submitting survey:', err);
