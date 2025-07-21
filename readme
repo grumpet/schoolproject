@@ -1,28 +1,13 @@
--- Add the new optional fields to the survey_responses table
 ALTER TABLE survey_responses 
 ADD COLUMN service_id INT NULL,
 ADD COLUMN recommendation ENUM('definitely', 'probably', 'maybe', 'probably_not', 'definitely_not') NULL;
 
--- Add foreign key constraint for service_id (assuming you have a services table)
 ALTER TABLE survey_responses 
 ADD CONSTRAINT fk_survey_service 
 FOREIGN KEY (service_id) REFERENCES services(id) 
 ON DELETE SET NULL;
 
--- If you need to create the services table first, use this:
--- CREATE TABLE IF NOT EXISTS services (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     name VARCHAR(100) NOT NULL,
---     price DECIMAL(10,2) NOT NULL,
---     duration_minutes INT NOT NULL
--- );
 
--- Insert sample services if they don't exist:
--- INSERT IGNORE INTO services (id, name, price, duration_minutes) VALUES
--- (1, 'Classic Haircut', 25.00, 30),
--- (2, 'Beard Trim', 15.00, 20),
--- (3, 'Hot Towel Shave', 30.00, 30),
--- (4, 'Full Service', 60.00, 60);
 
 
 
