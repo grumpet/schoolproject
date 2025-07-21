@@ -5,6 +5,9 @@ exports.getHelpWantedForm = (req, res, next) => {
     res.sendFile(path.join(__dirname, '../views/help_wanted/help_wanted_1.html'));
 };
 
+exports.getViewApplicants = (req, res, next) => {
+    res.sendFile(path.join(__dirname, '../views/help_wanted/view_applicants.html'));
+};
 exports.postHelpWanted = async (req, res, next) => {
     const { firstName, lastName, email, phone, position, experienceYears } = req.body;
     

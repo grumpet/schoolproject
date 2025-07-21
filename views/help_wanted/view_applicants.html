@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Applicants - Sharp Cuts Barber Shop</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sharp Cuts Barber Shop</h1>
+        <div class="nav">
+            <a href="/">Home</a>
+            <a href="/menu">Services</a>
+            <a href="/dashboard">My Dashboard</a>
+            <a href="/profiles">Profile</a>
+            <a href="/signup">Book Appointment</a>
+            <a href="/survey">Leave Feedback</a>
+            <a href="/feedback">View Feedback</a>
+            <a href="/qa">FAQ</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+            <a href="https://dinle.mtacloud.co.il/">Shop</a>
+            <form method="post" action="/logout">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </header>
+    
+    <main>
+        <h2>Job Applications</h2>
+        <div id="loading">Loading applications...</div>
+        <div id="applicants-container"></div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchApplicants();
+        });
+
+        async function fetchApplicants() {
+            try {
+                const response = await fetch('/api/applicants');
+                const applicants = await response.json();
+                
+                document.getElementById('loading').style.display = 'none';
+                
+                const container = document.getElementById('applicants-container');
+                
+                if (applicants.length === 0) {
+                    container.innerHTML = '<p>No applications found.</p>';
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Position</th>
+                                <th>Experience (Years)</th>
+                                <th>Applied Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${applicants.map(applicant => `
+                                <tr>
+                                    <td>${applicant.first_name} ${applicant.last_name}</td>
+                                    <td>${applicant.email}</td>
+                                    <td>${applicant.phone}</td>
+                                    <td>${applicant.position}</td>
+                                    <td>${applicant.experience_years}</td>
+                                    <td>${applicant.formatted_date}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('Error fetching applicants:', error);
+                document.getElementById('loading').innerHTML = '<p>Error loading applications.</p>';
+            }
+        }
+    </script>
+</body>
+</html>

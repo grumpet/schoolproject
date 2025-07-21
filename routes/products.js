@@ -14,6 +14,9 @@ router.get('/help_wanted_2', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../views/help_wanted/help_wanted_2.html'));
 });
 router.post('/help-wanted-review', helpWantedController.postHelpWanted);
+router.get('/view-applicants', authMiddleware.requireAuth, helpWantedController.getViewApplicants);
+router.get('/api/applicants', authMiddleware.requireAuth, helpWantedController.getAllApplications);
+
 // Home page
 router.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../views/index.html'));
