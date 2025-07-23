@@ -66,6 +66,7 @@
             <div class="form-group">
                 <label for="date">Preferred Date:</label>
                 <input type="date" id="date" name="date" required>
+                <p id="days-until"></p>
             </div>
             
             <div class="form-group">
@@ -87,8 +88,39 @@
             
             <button type="submit">Book Appointment</button>
         </form>
+        <script>
+            function calculateDaysUntil() {
+                const selectedDate = document.getElementById('date').value;
+                const daysDisplay = document.getElementById('days-until');
+                
+                if (selectedDate) {
+                    const today = new Date();
+                    const appointmentDate = new Date(selectedDate);
+                    const timeDifference = appointmentDate.getTime() - today.getTime();
+                    const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+                    
+                    if (daysDifference < 0) {
+                        daysDisplay.textContent = "Please select a future date.";
+                        daysDisplay.className = "error";
+                    } else if (daysDifference === 0) {
+                        daysDisplay.textContent = "Appointment is today!";
+                        daysDisplay.className = "success";
+                    } else if (daysDifference === 1) {
+                        daysDisplay.textContent = "Appointment is tomorrow!";
+                        daysDisplay.className = "success";
+                    } else {
+                        daysDisplay.textContent = `${daysDifference} days until your appointment.`;
+                        daysDisplay.className = "normal";
+                    }
+                } else {
+                    daysDisplay.textContent = "";
+                    daysDisplay.className = "";
+                }
+            }
+            
+            document.getElementById('date').addEventListener('change', calculateDaysUntil);
+        </script>
         <script src="/js/book.js"></script>
     </main>
 </body>
-</html>
 </html>

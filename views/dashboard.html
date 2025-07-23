@@ -36,11 +36,12 @@
         <div class="dashboard-actions">
             <a href="/signup">Book New Appointment</a>
             <a href="/survey">Leave Feedback</a>
+            <button id="toggle-appointments" class="toggle-btn">Show Appointments</button>
         </div>
         
-        <h3>My Appointments</h3>
+        <h3 id="appointments-header" style="display: none;">My Appointments</h3>
         
-        <div id="appointments-container">
+        <div id="appointments-container" style="display: none;">
             <div class="no-appointments">
                 <p>Loading your appointments...</p>
             </div>
@@ -64,6 +65,11 @@
         
         function displayAppointments(appointments) {
             const container = document.getElementById('appointments-container');
+            const toggleBtn = document.getElementById('toggle-appointments');
+            const header = document.getElementById('appointments-header');
+            
+            // Store appointments data for toggle functionality
+            window.appointmentsData = appointments;
             
             if (appointments.length === 0) {
                 container.innerHTML = `
@@ -72,47 +78,61 @@
                         <p><a href="/signup">Book your first appointment</a></p>
                     </div>
                 `;
-                return;
-            }
-            
-            let tableHTML = `
-                <table class="appointments-table">
-                    <thead>
+            } else {
+                let tableHTML = `
+                    <table class="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Service</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Booked On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                appointments.forEach(appointment => {
+                    const statusClass = `status-${appointment.status}`;
+                    const appointmentDate = new Date(appointment.appointment_date).toLocaleDateString();
+                    const bookedDate = new Date(appointment.created_at).toLocaleDateString();
+                    
+                    tableHTML += `
                         <tr>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Service</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Booked On</th>
+                            <td>${appointmentDate}</td>
+                            <td>${appointment.appointment_time}</td>
+                            <td>${appointment.service_name}</td>
+                            <td>$${appointment.service_price}</td>
+                            <td><span class="${statusClass}">${appointment.status}</span></td>
+                            <td>${bookedDate}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            appointments.forEach(appointment => {
-                const statusClass = `status-${appointment.status}`;
-                const appointmentDate = new Date(appointment.appointment_date).toLocaleDateString();
-                const bookedDate = new Date(appointment.created_at).toLocaleDateString();
+                    `;
+                });
                 
                 tableHTML += `
-                    <tr>
-                        <td>${appointmentDate}</td>
-                        <td>${appointment.appointment_time}</td>
-                        <td>${appointment.service_name}</td>
-                        <td>$${appointment.service_price}</td>
-                        <td><span class="${statusClass}">${appointment.status}</span></td>
-                        <td>${bookedDate}</td>
-                    </tr>
+                        </tbody>
+                    </table>
                 `;
+                
+                container.innerHTML = tableHTML;
+            }
+            
+            // Add toggle functionality
+            toggleBtn.addEventListener('click', function() {
+                const isVisible = container.style.display !== 'none';
+                
+                if (isVisible) {
+                    container.style.display = 'none';
+                    header.style.display = 'none';
+                    toggleBtn.textContent = 'Show Appointments';
+                } else {
+                    container.style.display = 'block';
+                    header.style.display = 'block';
+                    toggleBtn.textContent = 'Hide Appointments';
+                }
             });
-            
-            tableHTML += `
-                    </tbody>
-                </table>
-            `;
-            
-            container.innerHTML = tableHTML;
         }
     </script>
 </body>
