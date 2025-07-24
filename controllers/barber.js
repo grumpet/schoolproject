@@ -5,7 +5,7 @@ const path = require('path');
 exports.getDashboard = async (req, res, next) => {
     try {
         const [appointments] = await Appointment.findByUserId(req.session.userId);
-        res.sendFile(path.join(__dirname, '../views/dashboard.html'));
+        res.render('dashboard');
         
     } catch (err) {
         console.error('Error fetching user appointments:', err);
@@ -15,7 +15,7 @@ exports.getDashboard = async (req, res, next) => {
 
 exports.getFeedback = async (req, res, next) => {
     try {
-        res.sendFile(path.join(__dirname, '../views/feedback.html'));
+        res.render('feedback');
     } catch (err) {
         console.error('Error loading feedback page:', err);
         res.redirect('/');

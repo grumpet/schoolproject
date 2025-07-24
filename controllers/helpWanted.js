@@ -2,11 +2,11 @@ const HelpWanted = require('../models/helpWanted');
 const path = require('path');
 
 exports.getHelpWantedForm = (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/help_wanted/help_wanted_1.html'));
+    res.render('help_wanted/help_wanted_1');
 };
 
 exports.getViewApplicants = (req, res, next) => {
-    res.sendFile(path.join(__dirname, '../views/help_wanted/view_applicants.html'));
+    res.render('help_wanted/view_applicants');
 };
 exports.postHelpWanted = async (req, res, next) => {
     const { firstName, lastName, email, phone, position, experienceYears } = req.body;

@@ -11,7 +11,7 @@ const helpWantedController = require('../controllers/helpWanted');
 router.get('/help-wanted', helpWantedController.getHelpWantedForm);
 router.get('/help_wanted_1', helpWantedController.getHelpWantedForm);
 router.get('/help_wanted_2', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/help_wanted/help_wanted_2.html'));
+  res.render('help_wanted/help_wanted_2');
 });
 router.post('/help-wanted-review', helpWantedController.postHelpWanted);
 router.get('/view-applicants', authMiddleware.requireAuth, helpWantedController.getViewApplicants);
@@ -19,18 +19,18 @@ router.get('/api/applicants', authMiddleware.requireAuth, helpWantedController.g
 
 // Home page
 router.get('/', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/index.html'));
+  res.render('index');
 });
 
 // Profile page 
 router.get('/profiles', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/profiles.html'));
+  res.render('profiles');
 });
 
 // Individual barber profiles
 router.get('/profiles/:name', (req, res, next) => {
   const barberName = req.params.name;
-  res.sendFile(path.join(__dirname, `../views/${barberName}.html`));
+  res.render(barberName);
 });
 // Authentication routes
 router.get('/login', authController.getLogin);
@@ -71,26 +71,26 @@ router.get('/api/my-appointments', authMiddleware.requireAuth, async (req, res, 
 
 // Appointment booking (protected routes)
 router.get('/signup', authMiddleware.requireAuth, (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/signup.html'));
+  res.render('signup');
 });
 
 router.post('/signup', authMiddleware.requireAuth, barberController.saveAppointment);
 
 // Customer survey (protected routes)
 router.get('/survey', authMiddleware.requireAuth, (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/survey.html'));
+  res.render('survey');
 });
 
 router.post('/survey', authMiddleware.requireAuth, barberController.saveSurvey);
 
 // FAQ page
 router.get('/qa', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/qa.html'));
+  res.render('qa');
 });
 
 // 404 handler
 router.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, '../views/404.html'));
+  res.render('404');
 });
 
 module.exports = router;

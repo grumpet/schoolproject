@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const path = require('path');
 
 exports.getLogin = (req, res, next) => {
     const errorMessage = req.session.errorMessage;
@@ -8,7 +7,7 @@ exports.getLogin = (req, res, next) => {
 
         res.redirect(`/login?error=${encodeURIComponent(errorMessage)}`);
     } else {
-        res.sendFile(path.join(__dirname, '../views/login.html'));
+        res.render('login');
     }
 };
 
@@ -19,7 +18,7 @@ exports.getRegister = (req, res, next) => {
     if (errorMessage) {
         res.redirect(`/register?error=${encodeURIComponent(errorMessage)}`);
     } else {
-        res.sendFile(path.join(__dirname, '../views/register.html'));
+        res.render('register');
     }
 };
 
