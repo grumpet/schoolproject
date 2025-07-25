@@ -49,17 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Auto-play next song when current ends
-    audioPlayer.addEventListener('ended', function() {
-        const activeButton = document.querySelector('.song-button.active');
-        if (activeButton) {
-            const currentIndex = parseInt(activeButton.dataset.index);
-            const nextIndex = (currentIndex + 1) % songs.length;
-            playSong(nextIndex);
-            audioPlayer.play();
-        }
-    });
-    
+
     // Initialize playlist
     loadPlaylist();
 });
