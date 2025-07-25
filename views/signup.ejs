@@ -16,7 +16,11 @@
         it checks that
         1. the name has at least 3 characters
         2. the phone number has at least 10 characters
+
+        Also this form calculates the number of days until the selected date
+        and displays it in the paragraph with id "days-until"
         -->
+
         <h2>Book Your Appointment</h2>
         
         <form method="post" action="/signup">
@@ -71,38 +75,8 @@
             
             <button type="submit">Book Appointment</button>
         </form>
-        <script>
-            function calculateDaysUntil() {
-                const selectedDate = document.getElementById('date').value;
-                const daysDisplay = document.getElementById('days-until');
-                
-                if (selectedDate) {
-                    const today = new Date();
-                    const appointmentDate = new Date(selectedDate);
-                    const timeDifference = appointmentDate.getTime() - today.getTime();
-                    const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
-                    
-                    if (daysDifference < 0) {
-                        daysDisplay.textContent = "Please select a future date.";
-                        daysDisplay.className = "error";
-                    } else if (daysDifference === 0) {
-                        daysDisplay.textContent = "Appointment is today!";
-                        daysDisplay.className = "success";
-                    } else if (daysDifference === 1) {
-                        daysDisplay.textContent = "Appointment is tomorrow!";
-                        daysDisplay.className = "success";
-                    } else {
-                        daysDisplay.textContent = `${daysDifference} days until your appointment.`;
-                        daysDisplay.className = "normal";
-                    }
-                } else {
-                    daysDisplay.textContent = "";
-                    daysDisplay.className = "";
-                }
-            }
-            
-            document.getElementById('date').addEventListener('change', calculateDaysUntil);
-        </script>
+
+
         <script src="/js/book.js"></script>
     </main>
 </body>

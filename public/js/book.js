@@ -6,7 +6,43 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
+    // Calculate days until appointment function
+    function calculateDaysUntil() {
+        const selectedDate = document.getElementById('date').value;
+        const daysDisplay = document.getElementById('days-until');
+        
+        if (selectedDate) {
+            const today = new Date();
+            const appointmentDate = new Date(selectedDate);
+            const timeDifference = appointmentDate.getTime() - today.getTime();
+            const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+            
+            if (daysDifference < 0) {
+                daysDisplay.textContent = "Please select a future date.";
+                daysDisplay.className = "error";
+            } else if (daysDifference === 0) {
+                daysDisplay.textContent = "Appointment is today!";
+                daysDisplay.className = "success";
+            } else if (daysDifference === 1) {
+                daysDisplay.textContent = "Appointment is tomorrow!";
+                daysDisplay.className = "success";
+            } else {
+                daysDisplay.textContent = `${daysDifference} days until your appointment.`;
+                daysDisplay.className = "normal";
+            }
+        } else {
+            daysDisplay.textContent = "";
+            daysDisplay.className = "";
+        }
+    }
     
+    // Add event listener for date change
+    const dateInput = document.getElementById('date');
+    if (dateInput) {
+        dateInput.addEventListener('change', calculateDaysUntil);
+    }
+    
+    // Form submission validation
     form.addEventListener('submit', function(e) {
         
         const nameInput = document.getElementById('name');

@@ -558,6 +558,95 @@ button {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
+/* Music Player Styles */
+
+
+.music-player-container h3 {
+    color: black;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.music-player {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.current-song {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #74b9ff;
+}
+
+#current-song-name {
+    font-weight: 600;
+    color: black;
+    font-size: 1.1rem;
+}
+
+#audio-player {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.playlist h4 {
+    color: black;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+#song-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#song-list li {
+    margin-bottom: 8px;
+}
+
+.song-button {
+    width: 100%;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+}
+
+.song-button:hover {
+    background: #e9ecef;
+    border-color: #74b9ff;
+    transform: translateY(-1px);
+}
+
+.song-button.active {
+    background: linear-gradient(45deg, #74b9ff, #0984e3);
+    color: white;
+    border-color: #0984e3;
+}
+
+.song-name {
+    font-weight: 500;
+    color: inherit;
+}
+
+.play-icon {
+    font-size: 12px;
+}
+
 @media (max-width: 768px) {
     body { 
         padding: 10px; 
